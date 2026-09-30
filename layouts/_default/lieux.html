@@ -10,7 +10,11 @@
   <div class="wrap">
     <div class="titre-sec"><h2>Les emplacements</h2></div>
     <div class="lieux">
-      {{ range $id, $l := $P.lieux }}
+      {{- /* Ordre d'affichage : jour de la semaine du premier passage (lundi → dimanche) */ -}}
+      {{ $ordre := slice }}
+      {{ range $P.semaine }}{{ range .creneaux }}{{ if not (in $ordre .lieu) }}{{ $ordre = $ordre | append .lieu }}{{ end }}{{ end }}{{ end }}
+      {{ range $id := $ordre }}
+      {{ $l := index $P.lieux $id }}
       {{ $q := slice }}{{ range $P.semaine }}{{ $j := .jour }}{{ range .creneaux }}{{ if eq .lieu $id }}{{ $q = $q | append (printf "%s %s–%s" (title $j) (replace .debut ":" "h") (replace .fin ":" "h")) }}{{ end }}{{ end }}{{ end }}
       {{ if $q }}
       <div class="lieu-c">
