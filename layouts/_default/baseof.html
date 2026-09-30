@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{{ if .IsHome }}{{ site.Title }} · Foodtruck antillais à Limoges – bokits & poulet boucané{{ else }}{{ .Title }} · {{ site.Title }} foodtruck{{ end }}</title>
+<title>{{ if .IsHome }}{{ site.Title }} · Foodtruck antillais à Limoges – bokits & poulet boucané{{ else }}{{ if eq .Kind "404" }}Page introuvable{{ else }}{{ .Title }}{{ end }} · {{ site.Title }} foodtruck{{ end }}</title>
 <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
 <meta name="theme-color" content="#1a120d">
 <link rel="canonical" href="{{ .Permalink }}">
