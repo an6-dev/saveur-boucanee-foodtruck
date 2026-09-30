@@ -1,0 +1,41 @@
+# ============================================================
+#  RÉGLAGES DE LA PAGE /caisse/ (écran interne, non référencé)
+# ============================================================
+# Les articles viennent automatiquement de data/menu.yaml.
+# Les prix du menu sont TTC. La TVA est calculée "dont TVA".
+
+# Taux de TVA par défaut (vente à emporter à consommer tout de suite : 10 %)
+# À faire valider par votre comptable.
+tva_defaut: 10
+
+# Taux particuliers par article (titre exact du menu : taux)
+# Exemple : "Canette 33 cl": 5.5
+tva_articles: {}
+
+# Articles en plus, visibles seulement sur la caisse
+extras:
+  - titre: "Supplément complet"
+    prix: "1,50 €"
+    icone: bokit
+  - titre: "Topping bokit sucré"
+    prix: "1 €"
+    icone: coco
+  # - titre: "Canette 33 cl"
+  #   prix: "2 €"
+  #   icone: coco
+  #   tva: 5.5
+
+# Moyens de paiement.
+# "especes" : calcul du rendu monnaie (aucun paiement réel).
+# Les autres ne sont PAS actifs : ils sont prévus pour un branchement futur
+# (voir assets/js/caisse.js, objet PAIEMENTS).
+paiements:
+  - id: especes
+    nom: "Espèces"
+    actif: true
+  - id: carte
+    nom: "Carte bancaire (TPE / SumUp / Stripe)"
+    actif: false
+  - id: lien
+    nom: "QR code / lien de paiement"
+    actif: false

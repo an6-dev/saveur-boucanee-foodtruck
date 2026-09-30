@@ -1,0 +1,14 @@
+{{ define "main" }}
+<section class="sombre" style="padding:24px 0 36px">
+  <div class="wrap">
+    <div class="titre-sec"><div><span class="kicker" style="color:var(--jaune)">Pas de réseau ? Pas de souci</span><h1 style="margin:0">Bokit Run 🚚🌴</h1></div></div>
+    <canvas id="jeu" style="width:100%;aspect-ratio:800/320;border-radius:18px;display:block;touch-action:manipulation;cursor:pointer;background:#4ac4e5" aria-label="Jeu : le camion saute par-dessus les crabes et les cocos"></canvas>
+    <p style="margin-top:14px;color:#e8d9c4">Touchez l'écran, ou appuyez sur <b>Espace</b> / <b>↑</b>, pour sauter. Double saut possible.
+      Évitez crabes, cocos, iguanes et caisses de mangues. Attrapez les <b>bokits</b> (+25), les <b>accras</b> (+10)
+      et le <b>piment</b> pour la super sauce chien 🔥. Une fois la page ouverte, le jeu marche même sans réseau.</p>
+    <a class="btn" href="{{ "" | relURL }}">← Où est le camion aujourd'hui ?</a>
+  </div>
+</section>
+{{ $js := resources.Get "js/jeu.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" defer></script>
+{{ end }}

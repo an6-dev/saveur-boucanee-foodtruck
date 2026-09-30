@@ -1,0 +1,28 @@
+{{ define "main" }}
+<div class="bandeau"><div class="wrap"><span class="kicker" style="color:var(--jaune)">La carte</span><h1>Au menu du camion</h1><p>Tout est fait maison : pâte à bokit pétrie chaque jour, poulet et saucisses boucanés dans notre baril, sauce chien maison.</p></div></div>
+<section>
+  <div class="wrap">
+    <nav class="onglets" aria-label="Catégories">
+      {{ range site.Data.menu.categories }}<a href="#{{ .id }}">{{ .titre }}</a>{{ end }}
+    </nav>
+    {{ range site.Data.menu.categories }}
+    <h2 id="{{ .id }}" style="scroll-margin-top:130px">{{ .titre }}</h2>
+    <div class="carte">
+      {{ range .items }}
+      <article class="plat{{ if .star }} star{{ end }}">
+        {{ partial "icone.html" .icone }}
+        <div>
+          <h3><span>{{ .titre }}</span><span class="prix">{{ .prix }}</span></h3>
+          <p>{{ .texte }}</p>
+        </div>
+        {{ with .photo }}
+        <details><summary>📷 Voir la photo</summary>{{ partial "img.html" (dict "src" (printf "menu/%s" .) "alt" "" "w" 640 "sizes" "300px") }}</details>
+        {{ end }}
+      </article>
+      {{ end }}
+    </div>
+    {{ end }}
+    <p>Garnitures au choix : poulet boucané · saucisse boucanée · jambon-fromage · morue · thon · végétarien.</p>
+  </div>
+</section>
+{{ end }}

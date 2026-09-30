@@ -1,0 +1,71 @@
+# Saveur Boucanée – Foodtruck antillais (v2)
+# Le baseURL est surchargé automatiquement par le déploiement GitHub Pages.
+baseURL: "https://saveurboucanee.fr/"
+title: "Saveur Boucanée"
+languageCode: fr-FR
+defaultContentLanguage: fr
+enableRobotsTXT: true
+disableKinds: [taxonomy, term, RSS]
+
+params:
+  description: "Foodtruck antillais à Limoges & Feytiat : bokits, poulet boucané maison, accras, boudins. Où est le camion aujourd'hui ?"
+  slogan: "Foodtruck antillais · Limoges & Feytiat"
+  # Téléphone / email : laisser vide pour ne rien afficher sur le site.
+  phone: ""
+  email: ""
+  # Formulaire de contact (formsubmit.co, etc.). Vide = formulaire masqué.
+  formAction: ""
+  gmapEmbed: "https://www.google.com/maps/d/embed?mid=1bTNnzfeb_t8j8xYKG7c9u2eD4vrxanM&ehbc=2E312F&noprof=1"
+  gmapLink: "https://www.google.com/maps/d/viewer?mid=1bTNnzfeb_t8j8xYKG7c9u2eD4vrxanM"
+  facebook: "https://www.facebook.com/Saveurboucanee/"
+  instagram: "https://www.instagram.com/saveurboucanee/"
+  instagramName: "@saveurboucanee"
+  # Widget Instagram behold.so (chargé seulement sur demande, page Photos)
+  beholdKey: "NPWdrPGOBbMsyZyas0iz"
+  youtube:
+    - titre: "Ester Technopole"
+      url: "https://youtube.com/shorts/RGl2fKP0Mxk"
+    - titre: "Fac de droit"
+      url: "https://youtube.com/shorts/Ev8WQlT1kyo"
+    - titre: "Castorama Feytiat"
+      url: "https://youtube.com/shorts/6XpD-d1Afu4"
+
+menus:
+  main:
+    - { name: "Aujourd'hui", pageRef: "/", weight: 1 }
+    - { name: "Menu", pageRef: "/menu", weight: 2 }
+    - { name: "Où nous trouver", pageRef: "/ou-nous-trouver", weight: 3 }
+    - { name: "Notre histoire", pageRef: "/histoire", weight: 4 }
+    - { name: "Événements", pageRef: "/evenements", weight: 5 }
+    - { name: "Photos", pageRef: "/photos", weight: 6 }
+    - { name: "Blog", pageRef: "/blog", weight: 7 }
+    - { name: "Le jeu", pageRef: "/jeu", weight: 8 }
+
+imaging:
+  quality: 70
+  resampleFilter: Lanczos
+
+minify:
+  minifyOutput: true
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+
+# Fichiers pour les IA / robots : /llms.txt (texte) et /api.json (données)
+outputFormats:
+  llms:
+    mediaType: text/plain
+    baseName: llms
+    isPlainText: true
+    notAlternative: true
+  api:
+    mediaType: application/json
+    baseName: api
+    isPlainText: true
+    notAlternative: true
+outputs:
+  home: [HTML, llms, api]
+  page: [HTML]
+  section: [HTML]

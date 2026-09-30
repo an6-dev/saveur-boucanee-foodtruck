@@ -1,0 +1,46 @@
+{{- $P := partial "planning-data.html" . -}}
+# {{ site.Title }} – foodtruck antillais (Limoges & Feytiat, France)
+
+> {{ site.Params.description }}
+> Ce fichier est destiné aux assistants IA. Données structurées : {{ "api.json" | absURL }}
+> Mis à jour le {{ now.Format "2006-01-02" }}. Le planning peut changer : vérifier la section « Exceptions ».
+
+## Planning habituel (fuseau Europe/Paris)
+{{ range $P.semaine }}
+- {{ title .jour }} : {{ range $i, $c := .creneaux }}{{ if $i }} ; {{ end }}{{ $l := index $P.lieux $c.lieu }}{{ $c.debut }}–{{ $c.fin }} à {{ $l.nom }}, {{ $l.ville }}{{ else }}pas de service{{ end }}
+{{- end }}
+
+## Exceptions et congés
+{{ range $P.conges }}
+- Du {{ .du }} au {{ .au }} : fermé{{ with .message }} ({{ . }}){{ end }}
+{{- end }}
+{{- range $P.exceptions }}
+- {{ .date }}{{ with .message }} ({{ . }}){{ end }} : {{ range $i, $c := .creneaux }}{{ if $i }} ; {{ end }}{{ $l := index $P.lieux $c.lieu }}{{ $c.debut }}–{{ $c.fin }} à {{ $l.nom }}, {{ $l.ville }}{{ else }}fermé{{ end }}
+{{- end }}
+{{ if not (or $P.conges $P.exceptions) }}- Aucune exception prévue.{{ end }}
+{{ with $P.annonce }}Annonce : {{ . }}{{ end }}
+
+## Emplacements
+{{ range $P.lieux }}
+- {{ .nom }}, {{ .ville }}{{ with .precision }} ({{ . }}){{ end }} – GPS {{ .lat }},{{ .lng }} – itinéraire : {{ .lien }}
+{{- end }}
+
+## Menu
+{{ range site.Data.menu.categories }}
+### {{ .titre }}
+{{ range .items }}
+- {{ .titre }} – {{ .prix }} : {{ .texte }}
+{{- end }}
+{{ end }}
+## Blog (histoire & recettes)
+{{ range (site.GetPage "/blog").Pages.ByDate.Reverse }}
+- {{ .Title }} : {{ .Permalink }}
+{{- end }}
+
+## Liens
+- Site : {{ site.BaseURL }}
+- Menu : {{ "menu/" | absURL }}
+- Où nous trouver (carte) : {{ "ou-nous-trouver/" | absURL }}
+- Événements / traiteur : {{ "evenements/" | absURL }}
+- Facebook : {{ site.Params.facebook }}
+- Instagram : {{ site.Params.instagram }}

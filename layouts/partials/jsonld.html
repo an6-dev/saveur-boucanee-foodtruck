@@ -1,0 +1,17 @@
+{{- if .IsHome -}}
+{{- $P := partial "planning-data.html" . -}}
+{{- $days := dict "lundi" "Monday" "mardi" "Tuesday" "mercredi" "Wednesday" "jeudi" "Thursday" "vendredi" "Friday" "samedi" "Saturday" "dimanche" "Sunday" -}}
+{{- $hours := slice -}}
+{{- range $P.semaine -}}{{ $d := index $days .jour }}{{- range .creneaux -}}
+{{- $l := index $P.lieux .lieu -}}
+{{- $hours = $hours | append (dict "@type" "OpeningHoursSpecification" "dayOfWeek" (printf "https://schema.org/%s" $d) "opens" .debut "closes" .fin "description" (printf "%s, %s" $l.nom $l.ville)) -}}
+{{- end -}}{{- end -}}
+{{- $sections := slice -}}
+{{- range site.Data.menu.categories -}}
+{{- $items := slice -}}
+{{- range .items -}}{{- $items = $items | append (dict "@type" "MenuItem" "name" .titre "description" .texte "offers" (dict "@type" "Offer" "price" (replace (replace .prix " €" "") "," ".") "priceCurrency" "EUR")) -}}{{- end -}}
+{{- $sections = $sections | append (dict "@type" "MenuSection" "name" .titre "hasMenuItem" $items) -}}
+{{- end -}}
+{{- $ld := dict "@context" "https://schema.org" "@type" "FoodEstablishment" "name" site.Title "description" site.Params.description "url" site.BaseURL "servesCuisine" (slice "Antillaise" "Caribéenne" "Créole") "priceRange" "€" "image" ((resources.Get "images/site/logo-rond.png").Resize "512x png").Permalink "areaServed" (slice "Limoges" "Feytiat") "sameAs" (slice site.Params.facebook site.Params.instagram) "openingHoursSpecification" $hours "hasMenu" (dict "@type" "Menu" "name" "La carte" "hasMenuSection" $sections) -}}
+<script type="application/ld+json">{{ $ld | jsonify | safeJS }}</script>
+{{- end -}}

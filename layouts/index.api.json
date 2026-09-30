@@ -1,0 +1,2 @@
+{{- $P := partial "planning-data.html" . -}}
+{{- dict "nom" site.Title "type" "foodtruck antillais" "site" site.BaseURL "fuseau" "Europe/Paris" "misAJour" (now.Format "2006-01-02") "aide" "Planning habituel dans 'semaine' ; une date de 'exceptions' remplace la semaine ce jour-là ; 'conges' = fermé du..au inclus." "annonce" $P.annonce "emplacements" $P.lieux "semaine" $P.semaine "exceptions" $P.exceptions "conges" $P.conges "menu" site.Data.menu.categories "facebook" site.Params.facebook "instagram" site.Params.instagram | jsonify (dict "indent" "  ") -}}

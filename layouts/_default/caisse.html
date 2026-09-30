@@ -1,0 +1,113 @@
+{{- /* Écran de commande interne : page autonome, sans en-tête ni pied du site, non indexée. */ -}}
+{{- $C := site.Data.caisse -}}
+{{- $cats := slice -}}
+{{- $articles := slice -}}
+{{- $n := 0 -}}
+{{- $groupes := site.Data.menu.categories -}}
+{{- if $C.extras }}{{ $groupes = $groupes | append (dict "id" "extras" "titre" "Extras" "items" $C.extras) }}{{ end -}}
+{{- range $groupes -}}
+  {{- $cat := . -}}
+  {{- $cats = $cats | append (dict "id" .id "titre" .titre) -}}
+  {{- range .items -}}
+    {{- $n = add $n 1 -}}
+    {{- $p := replace (replace (replace .prix "€" "") " " "") "," "." -}}
+    {{- $cents := int (math.Round (mul (float $p) 100)) -}}
+    {{- $tva := .tva | default (index ($C.tva_articles | default dict) .titre) | default $C.tva_defaut -}}
+    {{- $articles = $articles | append (dict "id" (printf "a%d" $n) "titre" .titre "cat" $cat.id "prix" $cents "tva" (float $tva) "icone" (.icone | default "bokit")) -}}
+  {{- end -}}
+{{- end -}}
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="theme-color" content="#1a120d">
+<title>Caisse · {{ site.Title }}</title>
+<link rel="icon" type="image/png" href="{{ ((resources.Get "images/site/logo-rond.png").Resize "48x png").RelPermalink }}">
+{{- $css := resources.Get "css/caisse.css" | minify }}
+<style>@font-face{font-family:"Lilita One";font-display:swap;src:url({{ "fonts/lilita-one-latin.woff2" | relURL }}) format("woff2")}{{ $css.Content | safeCSS }}</style>
+</head>
+<body>
+<div class="madras"></div>
+<div class="pos">
+  <section class="produits" aria-label="Articles">
+    <header class="barre">
+      <b>Saveur Boucanée · Caisse</b>
+      <nav class="filtres">
+        <button type="button" class="on" data-cat="*">Tout</button>
+        {{- range $cats }}<button type="button" data-cat="{{ .id }}">{{ .titre }}</button>{{ end }}
+        <button type="button" data-cat="libre">+ Montant libre</button>
+      </nav>
+    </header>
+    <div class="tuiles">
+      {{- range $articles }}
+      <button type="button" class="tuile" data-id="{{ .id }}" data-cat="{{ .cat }}">
+        {{ partial "icone.html" .icone }}
+        <span class="nom">{{ .titre }}</span>
+        <span class="px">{{ lang.FormatCurrency 2 "EUR" (div (float .prix) 100) }}</span>
+        <span class="qte" hidden></span>
+      </button>
+      {{- end }}
+    </div>
+  </section>
+
+  <aside class="panier" id="panier" aria-label="Panier">
+    <button type="button" class="poignee" id="poignee" aria-expanded="false">
+      <span id="p-nb">0 article</span><b id="p-total-mini">0,00 €</b>
+    </button>
+    <div class="contenu">
+      <div class="tete"><h2>Commande</h2><button type="button" class="lien" id="vider">Vider</button></div>
+      <ul class="lignes" id="lignes"><li class="vide">Touchez un article pour l'ajouter.</li></ul>
+      <div class="totaux">
+        <div><span>Total HT</span><span id="t-ht">0,00 €</span></div>
+        <div id="t-tva-detail"></div>
+        <div class="grand"><span>Total TTC</span><span id="t-ttc">0,00 €</span></div>
+      </div>
+      <button type="button" class="encaisser" id="encaisser" disabled>Encaisser</button>
+      <p class="note">Calculatrice de commande : ce n'est pas un logiciel de caisse certifié (NF525).</p>
+    </div>
+  </aside>
+</div>
+
+<dialog id="d-paiement">
+  <form method="dialog" class="modal">
+    <h2>Encaisser <span id="m-total"></span></h2>
+    <div class="modes">
+      {{- range $C.paiements }}
+      <button type="button" class="mode" data-mode="{{ .id }}"{{ if not .actif }} disabled{{ end }}>{{ .nom }}{{ if not .actif }}<small>Bientôt</small>{{ end }}</button>
+      {{- end }}
+    </div>
+    <div id="m-especes" hidden>
+      <label>Montant reçu
+        <input id="m-recu" inputmode="decimal" autocomplete="off" placeholder="0,00">
+      </label>
+      <div class="billets">
+        <button type="button" data-v="500">5 €</button><button type="button" data-v="1000">10 €</button><button type="button" data-v="2000">20 €</button><button type="button" data-v="5000">50 €</button><button type="button" data-v="exact">Compte juste</button>
+      </div>
+      <div class="rendu">À rendre : <b id="m-rendu">–</b></div>
+    </div>
+    <div class="actions">
+      <button value="annuler" class="lien">Annuler</button>
+      <button type="button" id="m-valider" class="encaisser" disabled>Terminé · nouvelle commande</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="d-libre">
+  <form method="dialog" class="modal">
+    <h2>Montant libre</h2>
+    <label>Libellé <input id="l-nom" value="Divers"></label>
+    <label>Prix TTC <input id="l-prix" inputmode="decimal" placeholder="0,00"></label>
+    <label>TVA
+      <select id="l-tva"><option value="{{ $C.tva_defaut }}">{{ $C.tva_defaut }} %</option><option value="5.5">5,5 %</option><option value="10">10 %</option><option value="20">20 %</option></select>
+    </label>
+    <div class="actions"><button value="annuler" class="lien">Annuler</button><button type="button" id="l-ok" class="encaisser">Ajouter</button></div>
+  </form>
+</dialog>
+
+<script>window.CATALOGUE={{ $articles | jsonify | safeJS }};</script>
+{{ $js := resources.Get "js/caisse.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" defer></script>
+</body>
+</html>

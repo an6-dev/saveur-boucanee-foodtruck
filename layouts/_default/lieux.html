@@ -1,0 +1,40 @@
+{{ define "main" }}
+{{- $P := partial "planning-data.html" . -}}
+<div class="bandeau"><div class="wrap"><span class="kicker" style="color:var(--jaune)">Planning</span><h1>Où nous trouver</h1><p>Le camion change d'endroit selon le jour. Touchez un lieu pour lancer l'itinéraire.</p></div></div>
+<section>
+  <div class="wrap">
+    {{ partial "semaine.html" $P }}
+  </div>
+</section>
+<section class="fond">
+  <div class="wrap">
+    <div class="titre-sec"><h2>Les emplacements</h2></div>
+    <div class="lieux">
+      {{ range $id, $l := $P.lieux }}
+      {{ $q := slice }}{{ range $P.semaine }}{{ $j := .jour }}{{ range .creneaux }}{{ if eq .lieu $id }}{{ $q = $q | append (printf "%s %s–%s" (title $j) (replace .debut ":" "h") (replace .fin ":" "h")) }}{{ end }}{{ end }}{{ end }}
+      {{ if $q }}
+      <div class="lieu-c">
+        <h3>{{ $l.nom }}</h3><div>{{ $l.ville }}{{ with $l.precision }} · {{ . }}{{ end }}</div>
+        <div class="quand">{{ delimit $q " · " }}</div>
+        <a class="btn" href="{{ $l.lien }}" rel="noopener">{{ partial "icone.html" "pin" }} Itinéraire</a>
+      </div>
+      {{ end }}
+      {{ end }}
+    </div>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="titre-sec"><h2>La carte</h2><a class="lien" href="{{ site.Params.gmapLink }}" rel="noopener">Ouvrir dans Google Maps →</a></div>
+    {{- /* Google Maps pèse plus d'1 Mo : on ne le charge que si on le demande */ -}}
+    <div class="gmap" id="gmap">
+      <div>
+        {{ partial "icone.html" "pin" }}
+        <p><b>La carte Google Maps pèse lourd.</b><br>Elle ne se charge que si vous le demandez.</p>
+        <button class="btn" type="button" id="gmap-btn" data-src="{{ site.Params.gmapEmbed }}">Afficher la carte</button>
+      </div>
+    </div>
+  </div>
+</section>
+<script>document.getElementById("gmap-btn").onclick=function(){var f=document.createElement("iframe");f.title="Carte des emplacements";f.src=this.getAttribute("data-src");f.allowFullscreen=true;var g=document.getElementById("gmap");g.innerHTML="";g.appendChild(f)}</script>
+{{ end }}

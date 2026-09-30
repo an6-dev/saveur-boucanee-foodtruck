@@ -1,0 +1,24 @@
+<div class="madras" aria-hidden="true"></div>
+<footer>
+  <div class="wrap">
+    <div>
+      <h3>{{ site.Title }} · foodtruck antillais</h3>
+      <p>Bokits, poulet & saucisses boucanés maison, accras, boudins et douceurs coco-goyave. Limoges &amp; Feytiat.</p>
+      {{- with site.Params.phone }}<p>📞 <a href="tel:{{ replace . "." "" }}">{{ . }}</a></p>{{ end }}
+      {{- with site.Params.email }}<p>✉️ <a href="mailto:{{ . }}">{{ . }}</a></p>{{ end }}
+    </div>
+    <div>
+      <h3>Le site</h3>
+      <ul>{{ range site.Menus.main }}<li><a href="{{ .URL }}">{{ .Name }}</a></li>{{ end }}</ul>
+    </div>
+    <div>
+      <h3>Suivez le camion</h3>
+      <ul>
+        <li><a href="{{ site.Params.facebook }}" rel="noopener">Facebook</a></li>
+        <li><a href="{{ site.Params.instagram }}" rel="noopener">Instagram {{ site.Params.instagramName }}</a></li>
+        <li><a href="{{ "llms.txt" | relURL }}">Infos pour les IA (llms.txt)</a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="copy">© {{ now.Year }} {{ site.Title }} – An nou ay ! 🌴</p>
+</footer>

@@ -1,0 +1,7 @@
+{{- /* Image responsive WebP, chargée en différé.
+   dict "src" "site/camion.jpg" "alt" "..." "w" 800 "sizes" "(max-width:760px) 100vw, 50vw" "eager" false */ -}}
+{{- $i := resources.Get (printf "images/%s" .src) -}}
+{{- $w := .w | default 800 -}}
+{{- $petit := $i.Resize (printf "%dx webp q68" (div $w 2)) -}}
+{{- $grand := $i.Resize (printf "%dx webp q68" (cond (gt $w $i.Width) $i.Width $w)) -}}
+<img src="{{ $grand.RelPermalink }}" srcset="{{ $petit.RelPermalink }} {{ $petit.Width }}w, {{ $grand.RelPermalink }} {{ $grand.Width }}w" sizes="{{ .sizes | default "(max-width:760px) 100vw, 50vw" }}" width="{{ $grand.Width }}" height="{{ $grand.Height }}" alt="{{ .alt }}"{{ if not .eager }} loading="lazy"{{ end }} decoding="async"{{ with .class }} class="{{ . }}"{{ end }}>

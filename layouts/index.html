@@ -1,0 +1,79 @@
+{{ define "main" }}
+{{- $P := partial "planning-data.html" . -}}
+{{- /* 1. L'info essentielle : où et quand, sans aucune image à télécharger */ -}}
+<section class="today" aria-labelledby="t-lieu">
+  <div class="wrap">
+    <div>
+      {{ with $P.annonce }}<div class="annonce">📣 {{ . }}</div>{{ end }}
+      <div class="jour" id="t-jour">Cette semaine</div>
+      <div class="statut" id="t-statut"><i></i><span>Le camion tourne du lundi au samedi</span></div>
+      <h1 class="lieu" id="t-lieu">Limoges &amp; Feytiat</h1>
+      <div class="ville" id="t-ville">Retrouvez le camion à midi, voir le planning ci-dessous.</div>
+      <div class="heures" id="t-heures"></div>
+      <div class="btns">
+        <a class="btn" id="t-go" href="{{ "ou-nous-trouver/" | relURL }}">{{ partial "icone.html" "pin" }} Itinéraire</a>
+        {{ with site.Params.phone }}<a class="btn alt" href="tel:{{ replace . "." "" }}">📞 Appeler</a>{{ end }}
+        <a class="btn alt" href="{{ "menu/" | relURL }}">Voir la carte</a>
+      </div>
+      <p class="suite" id="t-suite"></p>
+    </div>
+    <div class="scene">
+      {{ partial "camion.html" . }}
+      <div class="route" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+{{- /* 2. Le planning de la semaine */ -}}
+<section id="semaine">
+  <div class="wrap">
+    <div class="titre-sec">
+      <div><span class="kicker">Planning</span><h2>Où est le camion cette semaine ?</h2></div>
+      <a class="lien" href="{{ "ou-nous-trouver/" | relURL }}">Carte &amp; adresses →</a>
+    </div>
+    {{ partial "semaine.html" $P }}
+  </div>
+</section>
+
+{{- /* 3. La carte, en icônes (aucune photo) */ -}}
+<section class="fond">
+  <div class="wrap">
+    <div class="titre-sec">
+      <div><span class="kicker">Fait maison</span><h2>Au menu du camion</h2></div>
+      <a class="lien" href="{{ "menu/" | relURL }}">Toute la carte →</a>
+    </div>
+    <div class="cats">
+      {{ range site.Data.menu.categories }}
+      {{ $first := index .items 0 }}
+      <a class="cat" href="{{ printf "menu/#%s" .id | relURL }}">
+        {{ partial "icone.html" (.icone | default $first.icone) }}
+        <span><b>{{ .titre }}</b><small>{{ range $i, $it := first 2 .items }}{{ if $i }} · {{ end }}{{ $it.titre }}{{ end }}</small></span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<section class="sombre">
+  <div class="wrap">
+    <div class="titre-sec"><div><span class="kicker" style="color:var(--jaune)">Nos valeurs</span><h2>{{ site.Data.histoire.valeurs.titre }}</h2></div></div>
+    <div class="grille">
+      {{ range site.Data.histoire.valeurs.items }}
+      <div class="carte-t">{{ partial "icone.html" .icone }}<h3>{{ .titre }}</h3><p>{{ .texte }}</p></div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="jeu-promo">
+      {{ partial "icone.html" "palmier" }}
+      <div><h2>Bokit Run 🚚</h2><p>Pas de réseau en attendant ton bokit ? Conduis le camion sur la route des Antilles. Ça marche même hors ligne !</p></div>
+      <a class="btn vert" href="{{ "jeu/" | relURL }}">Jouer</a>
+    </div>
+  </div>
+</section>
+
+{{ partial "today-js.html" $P }}
+{{ end }}

@@ -1,0 +1,45 @@
+{{- $P := . -}}
+<script>
+/* Calcule, sur le téléphone du client, où est le camion aujourd'hui (et le prochain arrêt). */
+(function(){
+var P={{ $P | jsonify | safeJS }};
+var J=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"];
+function z(n){return(n<10?"0":"")+n}
+function ymd(d){return d.getFullYear()+"-"+z(d.getMonth()+1)+"-"+z(d.getDate())}
+function mn(s){var a=s.split(":");return +a[0]*60+ +a[1]}
+function h(s){return s.replace(":","h").replace("h00","h")}
+function jour(d){return(d.getDay()+6)%7}
+function prog(d){var k=ymd(d),i;
+  for(i=0;i<P.conges.length;i++){var c=P.conges[i];if(k>=c.du&&k<=c.au)return{c:[],m:c.message||"Congés"}}
+  for(i=0;i<P.exceptions.length;i++){var e=P.exceptions[i];if(e.date===k)return{c:e.creneaux||[],m:e.message||""}}
+  return{c:P.semaine[jour(d)].creneaux||[],m:""}}
+function $(i){return document.getElementById(i)}
+var now=new Date(),m=now.getHours()*60+now.getMinutes(),t=prog(now),cible=null,etat="ferme",txt,quand=0,i;
+for(i=0;i<t.c.length;i++){var s=t.c[i];
+  if(m>=mn(s.debut)&&m<mn(s.fin)){cible=s;etat="ouvert";txt="Ouvert maintenant · jusqu'à "+h(s.fin);break}
+  if(m<mn(s.debut)){cible=s;etat="bientot";txt=(mn(s.debut)-m<=90?"Ouvre dans "+(mn(s.debut)-m)+" min":"Aujourd'hui dès "+h(s.debut));break}}
+if(!cible){
+  txt=t.c.length?"Service terminé pour aujourd'hui":(t.m||"Pas de camion aujourd'hui");
+  for(quand=1;quand<21&&!cible;quand++){var d=new Date(now);d.setDate(d.getDate()+quand);var p=prog(d);if(p.c.length){cible=p.c[0];cible._d=d;break}}
+}
+var jf=now.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
+$("t-jour").textContent=cible&&cible._d?"Prochain arrêt · "+(quand===1?"demain":J[jour(cible._d)].toLowerCase()+" "+cible._d.getDate()):"Aujourd'hui · "+jf;
+var st=$("t-statut");st.className="statut "+etat;st.lastChild.textContent=(t.m&&etat!=="ferme"?t.m+" · ":"")+txt;
+if(cible){var l=P.lieux[cible.lieu];
+  $("t-lieu").textContent=l.nom;
+  $("t-ville").textContent=l.ville+(l.precision?" · "+l.precision:"");
+  $("t-heures").innerHTML="<span>"+h(cible.debut)+"</span><span>"+h(cible.fin)+"</span>";
+  $("t-go").href=l.lien;
+  /* créneau suivant (soir, ou autre jour) */
+  var apres=null;
+  for(var k=cible._d?quand:0;k<21&&!apres;k++){var dd=new Date(now);dd.setDate(dd.getDate()+k);var pp=prog(dd).c;
+    for(var n=0;n<pp.length;n++){var x=pp[n];if(k===(cible._d?quand:0)){if(mn(x.debut)<=mn(cible.debut))continue}apres={s:x,k:k,d:dd};break}}
+  if(apres){var la=P.lieux[apres.s.lieu],q=apres.k===0?"Ce soir":apres.k===1?"Demain":J[jour(apres.d)];
+    $("t-suite").innerHTML="Ensuite : <b>"+q+"</b> · "+la.nom+" ("+la.ville+") "+h(apres.s.debut)+"–"+h(apres.s.fin)}
+}
+/* surligne aujourd'hui dans la semaine + masque les annonces passées */
+var c=document.querySelector('.j[data-j="'+jour(now)+'"]');if(c)c.classList.add("auj");
+var today=ymd(now);document.querySelectorAll("[data-fin]").forEach(function(li){if(li.getAttribute("data-fin")<today)li.remove()});
+var nt=$("notes");if(nt&&!nt.querySelector("li"))nt.remove();
+})();
+</script>

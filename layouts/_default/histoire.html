@@ -1,0 +1,31 @@
+{{ define "main" }}
+{{- $H := site.Data.histoire -}}
+<div class="bandeau"><div class="wrap"><span class="kicker" style="color:var(--jaune)">An nou ay</span><h1>Notre histoire</h1><p>8 ans de boucanage maison, dans le respect des méthodes traditionnelles.</p></div></div>
+<section>
+  <div class="wrap duo">
+    <div>{{ partial "img.html" (dict "src" "site/camion-histoire.jpg" "alt" "Le camion Saveur Boucanée" "w" 900) }}</div>
+    <div>
+      <p style="font-size:1.15rem"><em>{{ $H.intro }}</em></p>
+      <ul class="coche">{{ range $H.points }}<li>{{ . }}</li>{{ end }}</ul>
+      <p>{{ $H.conclusion }}</p>
+    </div>
+  </div>
+</section>
+<section class="sombre">
+  <div class="wrap">
+    <div class="titre-sec"><div><span class="kicker" style="color:var(--jaune)">Nos valeurs</span><h2>{{ $H.valeurs.titre }}</h2></div></div>
+    <div class="grille">{{ range $H.valeurs.items }}<div class="carte-t">{{ partial "icone.html" .icone }}<h3>{{ .titre }}</h3><p>{{ .texte }}</p></div>{{ end }}</div>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="titre-sec"><div><span class="kicker">Spécialités</span><h2>Fait avec amour pour vous régaler</h2></div></div>
+    {{ range $i, $s := $H.specialites }}
+    <div class="duo{{ if modBool $i 2 }}{{ else }} inv{{ end }}" style="margin-bottom:40px">
+      <div>{{ partial "img.html" (dict "src" $s.image "alt" $s.titre "w" 800) }}</div>
+      <div><span class="pill">{{ $s.titre }}</span><h3 style="font-size:1.7rem">{{ $s.sous_titre }}</h3><p>{{ $s.texte }}</p></div>
+    </div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}

@@ -1,0 +1,15 @@
+{{- /* Renvoie le planning normalisé (dict) : utilisé par la page, le JSON-LD, llms.txt et api.json. */ -}}
+{{- $p := site.Data.planning -}}
+{{- $lieux := dict -}}
+{{- range $id, $l := $p.emplacements -}}
+  {{- $lien := printf "https://www.google.com/maps/dir/?api=1&destination=%v,%v" $l.lat $l.lng -}}
+  {{- $lieux = merge $lieux (dict $id (dict "id" $id "nom" $l.nom "ville" $l.ville "precision" ($l.precision | default "") "lat" $l.lat "lng" $l.lng "lien" $lien)) -}}
+{{- end -}}
+{{- $jours := slice "lundi" "mardi" "mercredi" "jeudi" "vendredi" "samedi" "dimanche" -}}
+{{- $semaine := slice -}}
+{{- range $jours -}}
+  {{- $j := . -}}{{- $c := slice -}}
+  {{- range $p.semaine -}}{{- if eq .jour $j -}}{{- $c = .creneaux | default slice -}}{{- end -}}{{- end -}}
+  {{- $semaine = $semaine | append (dict "jour" $j "creneaux" $c) -}}
+{{- end -}}
+{{- return dict "lieux" $lieux "jours" $jours "semaine" $semaine "exceptions" ($p.exceptions | default slice) "conges" ($p.conges | default slice) "annonce" ($p.annonce | default "") -}}

@@ -1,0 +1,26 @@
+{{ define "main" }}
+<div class="bandeau"><div class="wrap"><span class="kicker" style="color:var(--jaune)">Galerie</span><h1>Une image vaut mille mots</h1><p>Les photos se chargent au fur et à mesure que vous descendez.</p></div></div>
+<section>
+  <div class="wrap">
+    <div class="galerie">
+      {{ range (resources.Match "images/galerie/*") }}
+      {{ $t := .Resize "600x webp q66" }}{{ $g := .Resize (printf "%dx webp q72" (cond (gt .Width 1400) 1400 .Width)) }}
+      <a href="{{ $g.RelPermalink }}"><img src="{{ $t.RelPermalink }}" width="{{ $t.Width }}" height="{{ $t.Height }}" alt="Saveur Boucanée" loading="lazy" decoding="async"></a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+<section class="fond">
+  <div class="wrap">
+    <div class="titre-sec"><div><span class="kicker">Vidéos & Instagram</span><h2>Le camion en action</h2></div></div>
+    <div class="btns" style="margin-bottom:22px">
+      {{ range site.Params.youtube }}<a class="btn alt" href="{{ .url }}" rel="noopener">▶ {{ .titre }}</a>{{ end }}
+      <a class="btn" href="{{ site.Params.instagram }}" rel="noopener">Instagram {{ site.Params.instagramName }}</a>
+    </div>
+    {{ with site.Params.beholdKey }}
+    <div id="insta"><button class="btn vert" type="button" id="insta-btn">Charger les dernières photos Instagram</button></div>
+    <script>document.getElementById("insta-btn").onclick=function(){var d=document.getElementById("insta");d.innerHTML='<div data-behold-id="{{ . }}"></div>';var s=document.createElement("script");s.type="module";s.src="https://w.behold.so/widget.js";document.head.appendChild(s)}</script>
+    {{ end }}
+  </div>
+</section>
+{{ end }}

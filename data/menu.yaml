@@ -1,0 +1,78 @@
+# Carte du camion.
+# icone : bokit | accras | boudin | poulet | canari | dessert | coco
+# photo : fichier dans assets/images/menu/ (optionnel, chargée en différé)
+categories:
+  - id: entrees
+    icone: accras
+    titre: "Entrées"
+    items:
+      - titre: "Accras de morue"
+        prix: "5,50 €"
+        texte: "Lot de 10 accras de morue, dorés et croustillants."
+        icone: accras
+        photo: accras.jpg
+      - titre: "Boudin"
+        prix: "1 €"
+        texte: "Boudin rouge antillais ou boudin blanc à la morue. La pièce."
+        icone: boudin
+        photo: boudins.jpg
+
+  - id: bokits
+    icone: bokit
+    titre: "Bokits"
+    items:
+      - titre: "Menu Bokit Classic"
+        prix: "10 €"
+        texte: "Bokit + boisson. Garniture au choix : poulet boucané, saucisse boucanée, jambon-fromage, morue, thon ou végétarien."
+        icone: bokit
+        photo: menu-bokit-classic.jpg
+        star: true
+      - titre: "Menu Bokit Complet"
+        prix: "12 €"
+        texte: "Bokit poulet boucané + saucisse boucanée + jambon-fromage, avec une boisson."
+        icone: bokit
+        photo: menu-bokit-complet.jpg
+      - titre: "Bokit seul"
+        prix: "8,50 €"
+        texte: "Garniture au choix : poulet boucané, saucisse boucanée, jambon-fromage, morue, thon ou végétarien."
+        icone: bokit
+        photo: bokit-seul.jpg
+
+  - id: specialites
+    icone: poulet
+    titre: "Spécialités"
+    items:
+      - titre: "Poulet boucané entier"
+        prix: "13 €"
+        texte: "Boucané entier pour 4 personnes, avec sauce chien."
+        icone: poulet
+        photo: poulet-entier.jpg
+      - titre: "Plat du jour"
+        prix: "12 €"
+        texte: "L'inspiration du chef : colombo, haricots rouges mijotés, riz parfumé au curry…"
+        icone: canari
+        photo: plat-du-jour.jpg
+      - titre: "Cuisse de poulet boucanée"
+        prix: "4,50 €"
+        texte: "Servie avec la fameuse sauce chien maison."
+        icone: poulet
+        photo: cuisse-poulet.jpg
+
+  - id: desserts
+    icone: coco
+    titre: "Desserts"
+    items:
+      - titre: "Bokit sucré"
+        prix: "5 €"
+        texte: "Au choix : pâte à tartiner ou confiture (goyave, mangue…)."
+        icone: bokit
+        photo: bokit-sucre.jpg
+      - titre: "Gâteaux"
+        prix: "4 €"
+        texte: "Gâteau coco, gâteau goyave."
+        icone: coco
+        photo: desserts.jpg
+      - titre: "Pâtés sucrés"
+        prix: "4 €"
+        texte: "Pâté coco, pâté goyave."
+        icone: dessert

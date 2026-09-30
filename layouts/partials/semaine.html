@@ -1,0 +1,23 @@
+{{- $P := . -}}
+<div class="semaine">
+  {{- range $i, $j := $P.semaine }}
+  <div class="j{{ if not $j.creneaux }} off{{ end }}" data-j="{{ $i }}">
+    <h3>{{ title $j.jour }}</h3>
+    {{- range $j.creneaux }}{{ $l := index $P.lieux .lieu }}
+    <div class="c"><a href="{{ $l.lien }}" rel="noopener"><b>{{ $l.nom }}</b>{{ $l.ville }}</a><br><time>{{ replace .debut ":" "h" }} – {{ replace .fin ":" "h" }}</time></div>
+    {{- else }}
+    <div class="c">Repos 😴</div>
+    {{- end }}
+  </div>
+  {{- end }}
+</div>
+{{- if or $P.exceptions $P.conges }}
+<div class="carte-t" id="notes" style="margin-top:16px">
+  <h3>⚠️ À noter</h3>
+  <ul class="coche">
+    {{- range $P.conges }}<li data-fin="{{ .au }}"><b>Du {{ time.Format "2 Jan" .du }} au {{ time.Format "2 Jan 2006" .au }}</b> : {{ .message | default "fermé" }}</li>{{ end }}
+    {{- range $P.exceptions }}<li data-fin="{{ .date }}"><b>{{ time.Format "Monday 2 January" .date }}</b> : {{ with .message }}{{ . }}{{ end }}
+      {{- range .creneaux }}{{ $l := index $P.lieux .lieu }} — {{ $l.nom }} ({{ $l.ville }}) {{ replace .debut ":" "h" }}–{{ replace .fin ":" "h" }}{{ else }} fermé{{ end }}</li>{{ end }}
+  </ul>
+</div>
+{{- end }}

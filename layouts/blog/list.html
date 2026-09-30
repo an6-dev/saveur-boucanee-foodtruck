@@ -1,0 +1,20 @@
+{{ define "main" }}
+<div class="bandeau"><div class="wrap"><span class="kicker" style="color:var(--jaune)">Blog</span><h1>Histoires & recettes des Antilles</h1><p>{{ .Content | plainify }}</p></div></div>
+<section>
+  <div class="wrap">
+    <div class="articles">
+      {{ range .Pages.ByDate.Reverse }}
+      <a class="article-c" href="{{ .RelPermalink }}">
+        <span class="article-ico">{{ partial "icone.html" (.Params.icone | default "palmier") }}</span>
+        <span>
+          {{ with .Params.recette }}<span class="pill">Recette · {{ .portions }}</span>{{ else }}<span class="pill" style="background:var(--toile)">Histoire</span>{{ end }}
+          <h2>{{ .Title }}</h2>
+          <p>{{ .Params.resume }}</p>
+          <span class="lien">Lire →</span>
+        </span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}

@@ -1,0 +1,33 @@
+{{ define "main" }}
+{{- $r := .Params.recette -}}
+<div class="bandeau"><div class="wrap"><a class="kicker" style="color:var(--jaune);text-decoration:none" href="{{ "blog/" | relURL }}">← Le blog</a><h1>{{ .Title }}</h1><p>{{ .Params.resume }}</p></div></div>
+<article class="prose wrap">
+  {{ with .Params.image }}<div class="prose-img">{{ partial "img.html" (dict "src" . "alt" "" "w" 1000 "sizes" "(max-width:760px) 100vw, 760px" "eager" true) }}</div>{{ end }}
+  {{ with $r }}
+  <div class="recette">
+    <div class="infos"><span>👥 {{ .portions }}</span><span>🔪 {{ .preparation }}</span><span>🔥 {{ .cuisson }}</span></div>
+  </div>
+  {{ end }}
+  {{ .Content }}
+  {{ with $r }}
+  <div class="recette">
+    <h2>Ingrédients</h2>
+    <ul class="coche">{{ range .ingredients }}<li>{{ . }}</li>{{ end }}</ul>
+    <h2>Préparation</h2>
+    <ol class="etapes">{{ range .etapes }}<li>{{ . }}</li>{{ end }}</ol>
+  </div>
+  {{ end }}
+  <div class="jeu-promo" style="margin-top:36px">
+    {{ partial "icone.html" "bokit" }}
+    <div><h2>Pas le temps de cuisiner ?</h2><p>Le camion vous attend avec bokits et poulet boucané.</p></div>
+    <a class="btn" href="{{ "" | relURL }}">Où est le camion ?</a>
+  </div>
+</article>
+{{- with $r }}
+{{- $ld := dict "@context" "https://schema.org" "@type" "Recipe" "name" $.Title "description" $.Description "recipeCuisine" "Antillaise" "author" (dict "@type" "Organization" "name" site.Title) "datePublished" ($.Date.Format "2006-01-02") "recipeYield" .portions "prepTime" .prepTime "cookTime" .cookTime "recipeIngredient" .ingredients -}}
+{{- $steps := slice }}{{ range .etapes }}{{ $steps = $steps | append (dict "@type" "HowToStep" "text" .) }}{{ end -}}
+{{- $ld = merge $ld (dict "recipeInstructions" $steps) -}}
+{{- with $.Params.image }}{{ $ld = merge $ld (dict "image" ((resources.Get (printf "images/%s" .)).Resize "1000x webp q70").Permalink) }}{{ end -}}
+<script type="application/ld+json">{{ $ld | jsonify | safeJS }}</script>
+{{- end }}
+{{ end }}

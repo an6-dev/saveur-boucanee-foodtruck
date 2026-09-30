@@ -1,0 +1,8 @@
+{{ define "main" }}
+<section class="today"><div class="wrap"><div>
+  <div class="jour">Erreur 404</div>
+  <h1 class="lieu">Le camion s'est perdu dans les cannes à sucre…</h1>
+  <p class="ville">Cette page n'existe pas (ou plus).</p>
+  <div class="btns"><a class="btn" href="{{ "" | relURL }}">Où est le camion aujourd'hui ?</a><a class="btn alt" href="{{ "jeu/" | relURL }}">Jouer à Bokit Run</a></div>
+</div><div class="scene">{{ partial "camion.html" . }}</div></div></section>
+{{ end }}

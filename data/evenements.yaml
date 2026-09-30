@@ -1,0 +1,24 @@
+intro: "Le goût des Antilles pour vos événements : séminaires, mariages, fêtes de ville et festivals."
+items:
+  - titre: "Traiteur pour séminaire"
+    prix: "Déplacement 150 €"
+    image: site/event-seminaire.jpg
+    texte: "Découvrez nos plats antillais lors de votre prochain séminaire, avec la formule qui vous convient."
+    liste:
+      - "Click & collect : commandez et récupérez vos plats directement au camion."
+      - "Livraison de plats sur le lieu de votre séminaire."
+      - "Le camion sur place pour servir des plats frais et savoureux à vos invités."
+  - titre: "Traiteur mariage"
+    prix: "Déplacement 150 €"
+    image: site/event-mariage.jpg
+    texte: "Offrez à votre mariage une expérience culinaire inoubliable, où qualité, fraîcheur et convivialité sont au rendez-vous."
+    liste:
+      - "Click & collect : planifiez la collecte de vos plats au camion."
+      - "Livraison : vos convives dégustent nos mets sans que vous ayez à bouger."
+      - "Le camion sur le lieu de réception, pour une touche de fête en plus."
+  - titre: "Événements de ville & festivals"
+    prix: "Sur devis"
+    image: site/event-festival.jpg
+    texte: "Apportez saveur et originalité à votre événement : une ambiance chaleureuse et gourmande assurée."
+    liste:
+      - "Le camion sur place pour régaler vos invités, habitants ou festivaliers."

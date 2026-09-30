@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ if .IsHome }}{{ site.Title }} · Foodtruck antillais à Limoges – bokits & poulet boucané{{ else }}{{ .Title }} · {{ site.Title }} foodtruck{{ end }}</title>
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+<meta name="theme-color" content="#1a120d">
+<link rel="canonical" href="{{ .Permalink }}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ if .IsHome }}{{ site.Title }} – foodtruck antillais{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}">
+<meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+{{- $logo := resources.Get "images/site/logo-rond.png" }}
+{{- $og := $logo.Resize "512x png" }}
+<meta property="og:image" content="{{ $og.Permalink }}">
+{{- $ico := $logo.Resize "192x png" }}{{ $fav := $logo.Resize "48x png" }}
+<link rel="icon" type="image/png" href="{{ $fav.RelPermalink }}">
+<link rel="apple-touch-icon" href="{{ (($logo.Resize "180x png")).RelPermalink }}">
+<link rel="manifest" href="{{ "manifest.webmanifest" | relURL }}">
+<link rel="alternate" type="text/plain" title="Infos pour les IA" href="{{ "llms.txt" | relURL }}">
+<link rel="preload" href="{{ "fonts/lilita-one-latin.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+{{- $css := resources.Get "css/main.css" | minify }}
+<style>@font-face{font-family:"Lilita One";font-display:swap;src:url({{ "fonts/lilita-one-latin.woff2" | relURL }}) format("woff2")}{{ $css.Content | safeCSS }}</style>
+{{ partial "jsonld.html" . }}
+</head>
+<body>
+<div class="horsligne">Pas de réseau ? Les infos ci-dessous sont celles de ta dernière visite. <a href="{{ "jeu/" | relURL }}">Joue à Bokit Run en attendant 🚚</a></div>
+<div class="madras" aria-hidden="true"></div>
+{{ partial "header.html" . }}
+<main id="contenu">
+{{ block "main" . }}{{ end }}
+</main>
+{{ partial "footer.html" . }}
+{{- $sw := resources.Get "js/sw.js" | resources.ExecuteAsTemplate "sw.js" . | minify }}
+<script>
+(function(){var b=document.body;function u(){b.classList.toggle("offline",!navigator.onLine)}addEventListener("online",u);addEventListener("offline",u);u();
+if("serviceWorker" in navigator&&location.protocol==="https:"){addEventListener("load",function(){navigator.serviceWorker.register("{{ $sw.RelPermalink }}")})}})();
+</script>
+</body>
+</html>

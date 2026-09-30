@@ -1,0 +1,65 @@
+name: Déploiement GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  # Rebuild chaque dimanche à 18h (heure de Paris) pour rafraîchir la date de llms.txt / api.json.
+  # Le cron GitHub est en UTC : on lance à 16h et 17h UTC, et le job "horaire" ne garde
+  # que celui qui tombe à 18h à Paris (heure d'été comme d'hiver).
+  schedule:
+    - cron: "0 16,17 * * 0"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  horaire:
+    runs-on: ubuntu-latest
+    outputs:
+      ok: ${{ steps.h.outputs.ok }}
+    steps:
+      - id: h
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ] || [ "$(TZ=Europe/Paris date +%H)" = "18" ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  build:
+    needs: horaire
+    if: needs.horaire.outputs.ok == 'true'
+    runs-on: ubuntu-latest
+    env:
+      HUGO_VERSION: 0.121.1
+      TZ: Europe/Paris
+    steps:
+      - uses: actions/checkout@v4
+      - name: Installer Hugo extended
+        run: |
+          wget -q -O hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb
+          sudo dpkg -i hugo.deb
+      - id: pages
+        uses: actions/configure-pages@v5
+      - name: Build
+        run: hugo --gc --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

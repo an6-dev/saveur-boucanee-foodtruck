@@ -1,0 +1,78 @@
+/* Écran de caisse : gros boutons, lisible en plein soleil, tablette ou téléphone. */
+:root{--noir:#1a120d;--noir2:#2a1d15;--creme:#fbf5e9;--toile:#f3e8d2;--jaune:#f5c518;--rouge:#d7261e;--vert:#1f7a3a;--doux:#6b5a4c;
+  --titre:"Lilita One","Arial Rounded MT Bold","Trebuchet MS",system-ui,sans-serif;
+  --madras:repeating-linear-gradient(90deg,var(--jaune) 0 18px,var(--rouge) 18px 26px,var(--jaune) 26px 34px,var(--vert) 34px 38px,var(--jaune) 38px 50px,var(--rouge) 50px 54px)}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--creme);color:#231a14;font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent;user-select:none}
+button{font:inherit;color:inherit;cursor:pointer}
+h2{font-family:var(--titre);font-weight:400;margin:0}
+.madras{height:6px;background:var(--madras)}
+.pos{display:grid;grid-template-columns:1fr 380px;height:calc(100% - 6px)}
+.produits{overflow:auto;padding:0 14px 14px}
+.barre{position:sticky;top:0;background:var(--creme);padding:12px 0 10px;z-index:2;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.barre>b{font-family:var(--titre);font-weight:400;font-size:1.3rem;margin-right:auto}
+.filtres{display:flex;gap:6px;flex-wrap:wrap}
+.filtres button{border:0;background:#fff;padding:10px 14px;border-radius:99px;font-weight:700;box-shadow:0 2px 0 #e3d3b7}
+.filtres button.on{background:var(--noir);color:#fff}
+.filtres [data-cat=libre]{background:var(--jaune)}
+.tuiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.tuile{position:relative;border:0;background:#fff;border-radius:18px;padding:14px 10px 12px;box-shadow:0 4px 0 #e3d3b7;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;min-height:150px;transition:transform .08s}
+.tuile:active{transform:translateY(3px);box-shadow:0 1px 0 #e3d3b7}
+.tuile[hidden]{display:none}
+.tuile .ico{width:62px;height:62px}
+.tuile .nom{font-weight:800;line-height:1.2}
+.tuile .px{font-family:var(--titre);color:var(--rouge);font-size:1.2rem;margin-top:auto}
+.tuile .qte{position:absolute;top:8px;right:8px;background:var(--rouge);color:#fff;font-weight:800;min-width:28px;height:28px;border-radius:99px;display:grid;place-items:center;padding:0 6px}
+.tuile.pop{animation:pop .25s}
+@keyframes pop{50%{transform:scale(.94)}}
+.panier{background:var(--noir);color:#fff;display:flex;flex-direction:column;min-height:0}
+.poignee{display:none}
+.contenu{display:flex;flex-direction:column;height:100%;padding:16px;min-height:0}
+.tete{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.lien{background:none;border:0;color:var(--jaune);font-weight:700;text-decoration:underline;padding:8px}
+.lignes{list-style:none;margin:0;padding:0;overflow:auto;flex:1;min-height:80px}
+.lignes li{display:grid;grid-template-columns:40px 30px 40px 1fr auto;align-items:center;gap:6px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.lignes li.vide{display:block;color:#bba995;border:0}
+.lignes .m,.lignes .p{width:40px;height:40px;border-radius:12px;border:0;background:var(--noir2);color:#fff;font-size:1.3rem;font-weight:800}
+.lignes .p{background:var(--vert)}
+.lignes .q{text-align:center;font-weight:800;font-size:1.1rem}
+.lignes .t{padding-left:6px;line-height:1.2}
+.totaux{border-top:2px dashed rgba(255,255,255,.25);margin-top:10px;padding-top:10px;color:#e8d9c4}
+.totaux div{display:flex;justify-content:space-between;padding:2px 0}
+.totaux .grand{color:#fff;font-family:var(--titre);font-size:1.9rem;margin-top:6px}
+.encaisser{border:0;background:var(--rouge);color:#fff;font-family:var(--titre);font-size:1.5rem;padding:16px;border-radius:18px;margin-top:12px;box-shadow:0 6px 0 #8f1711}
+.encaisser:disabled{opacity:.4;box-shadow:none}
+.note{font-size:.75rem;color:#9c8a78;margin:10px 0 0;text-align:center}
+dialog{border:0;border-radius:22px;padding:0;max-width:min(520px,94vw);width:100%;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+dialog::backdrop{background:rgba(26,18,13,.7)}
+.modal{padding:22px;display:grid;gap:14px}
+.modal h2{font-size:1.7rem}
+.modal label{display:grid;gap:6px;font-weight:700}
+.modal input,.modal select{font:inherit;font-size:1.4rem;padding:12px;border-radius:12px;border:2px solid #e3d3b7;user-select:text}
+.modes{display:grid;gap:8px}
+.mode{border:2px solid #e3d3b7;background:#fff;border-radius:14px;padding:14px;font-weight:800;text-align:left;display:flex;justify-content:space-between;align-items:center}
+.mode.on{border-color:var(--vert);background:#e9f5ec}
+.mode:disabled{opacity:.5;cursor:not-allowed}
+.mode small{background:var(--toile);padding:3px 8px;border-radius:99px;font-size:.75rem}
+.billets{display:flex;flex-wrap:wrap;gap:8px}
+.billets button{border:0;background:var(--toile);padding:12px 14px;border-radius:12px;font-weight:800}
+.rendu{font-size:1.3rem}
+.rendu b{font-family:var(--titre);font-weight:400;font-size:2rem;color:var(--vert)}
+.rendu b.manque{color:var(--rouge);font-size:1.4rem}
+.actions{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.actions .lien{color:var(--doux)}
+.actions .encaisser{margin:0;font-size:1.1rem;padding:14px 18px}
+@media (max-width:820px){
+  .pos{display:block;height:auto;padding-bottom:84px}
+  .tuiles{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+  .panier{position:fixed;left:0;right:0;bottom:0;max-height:88vh;border-radius:22px 22px 0 0;box-shadow:0 -10px 30px rgba(0,0,0,.35);z-index:5}
+  .poignee{display:flex;justify-content:space-between;align-items:center;border:0;background:none;color:#fff;padding:16px 20px calc(16px + env(safe-area-inset-bottom));font-weight:700;font-size:1.05rem}
+  .poignee b{font-family:var(--titre);font-weight:400;font-size:1.6rem;color:var(--jaune)}
+  .poignee::after{content:"▲";margin-left:10px;font-size:.8rem;opacity:.6}
+  .panier .contenu{display:none;padding-top:0;height:auto;max-height:calc(88vh - 70px)}
+  .panier.ouvert .contenu{display:flex}
+  .panier.ouvert .poignee::after{content:"▼"}
+}
+.tuile .qte[hidden]{display:none}
+.totaux #t-tva-detail{display:block;padding:0}

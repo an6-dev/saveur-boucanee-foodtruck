@@ -1,0 +1,22 @@
+{{- $logo := (resources.Get "images/site/logo-rond.png").Resize "88x webp q80" -}}
+{{- $cur := . -}}
+{{- define "partials/nav-liste" -}}
+<nav class="nav" aria-label="Navigation"><ul>
+{{- range site.Menus.main }}
+<li><a href="{{ .URL }}"{{ if $.IsMenuCurrent "main" . }} aria-current="page"{{ end }}>{{ .Name }}</a></li>
+{{- end }}
+</ul></nav>
+{{- end -}}
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="{{ "" | relURL }}">
+      <img src="{{ $logo.RelPermalink }}" width="44" height="44" alt="">
+      <span><b>{{ site.Title }}</b><small>Foodtruck antillais</small></span>
+    </a>
+    {{ partial "nav-liste" . }}
+    <details class="burger">
+      <summary aria-label="Menu"><span></span><span></span><span></span></summary>
+      {{ partial "nav-liste" . }}
+    </details>
+  </div>
+</header>

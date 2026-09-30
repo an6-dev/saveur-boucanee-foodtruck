@@ -1,0 +1,89 @@
+# =====================================================================
+#  PLANNING DU CAMION  –  c'est le seul fichier à modifier chaque semaine
+# =====================================================================
+#
+#  1) "emplacements" : la liste des lieux (on les écrit une seule fois)
+#  2) "semaine"      : le planning habituel, jour par jour
+#                      (un jour peut avoir 0, 1 ou plusieurs créneaux :
+#                       midi à un endroit, soir à un autre…)
+#  3) "exceptions"   : une date précise qui remplace la semaine habituelle
+#                      (fermeture, lieu différent, marché, festival…)
+#  4) "conges"       : une période de fermeture (du … au … inclus)
+#  5) "annonce"      : un petit message en haut de la page d'accueil (vide = rien)
+#
+#  Heures au format "HH:MM". Dates au format "AAAA-MM-JJ".
+# =====================================================================
+
+annonce: ""
+
+emplacements:
+  ester:
+    nom: "Ester Technopole"
+    ville: "Limoges"
+    precision: "Parking de la technopole"
+    lat: 45.860596
+    lng: 1.2915484
+  chu:
+    nom: "Hôpital de la mère et de l'enfant (CHU)"
+    ville: "Limoges"
+    precision: "Parking de l'hôpital"
+    lat: 45.8140802
+    lng: 1.2407638
+  fac:
+    nom: "Faculté de Droit"
+    ville: "Limoges"
+    precision: ""
+    lat: 45.825293
+    lng: 1.259468
+  casto:
+    nom: "Parking Castorama"
+    ville: "Feytiat"
+    precision: ""
+    lat: 45.8125509
+    lng: 1.2984384
+  garibaldi:
+    nom: "Avenue Garibaldi – Parking Picard"
+    ville: "Limoges"
+    precision: ""
+    lat: 45.8358017
+    lng: 1.2603223
+
+# jour : lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche
+semaine:
+  - jour: lundi
+    creneaux:
+      - { lieu: ester, debut: "11:45", fin: "14:00" }
+  - jour: mardi
+    creneaux:
+      - { lieu: chu, debut: "11:45", fin: "14:00" }
+  - jour: mercredi
+    creneaux: []
+  - jour: jeudi
+    creneaux:
+      - { lieu: fac, debut: "11:45", fin: "14:00" }
+  - jour: vendredi
+    creneaux: []
+  - jour: samedi
+    creneaux:
+      - { lieu: casto, debut: "11:45", fin: "14:00" }
+      # Exemple de 2e créneau le soir (enlever le # pour l'activer) :
+      # - { lieu: garibaldi, debut: "19:30", fin: "22:00" }
+  - jour: dimanche
+    creneaux: []
+
+# Exemples :
+# exceptions:
+#   - date: "2026-11-11"
+#     message: "Férié : le camion se repose"
+#     creneaux: []
+#   - date: "2026-10-17"
+#     message: "Fête de la châtaigne !"
+#     creneaux:
+#       - { lieu: garibaldi, debut: "18:00", fin: "23:00" }
+exceptions: []
+
+# conges:
+#   - du: "2026-12-24"
+#     au: "2027-01-04"
+#     message: "Congés de fin d'année, à très vite !"
+conges: []

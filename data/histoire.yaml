@@ -1,0 +1,32 @@
+intro: "Le cuisinier, passionné par la cuisine antillaise, prépare ses bokits et pratique le boucanage maison depuis 8 ans, en respectant scrupuleusement les méthodes traditionnelles. Son parcours débute avec un profond intérêt pour les saveurs authentiques des Antilles, et l'envie de partager cette richesse culinaire."
+points:
+  - "Chaque bokit est préparé à partir de pâte fraîchement frite, garnie de produits locaux."
+  - "Viandes et poissons sont boucanés avec soin, selon des techniques héritées et peaufinées au fil des années."
+conclusion: "Ce dévouement pour l'authenticité transforme chaque repas en une véritable expérience gustative : une façon de perpétuer et de célébrer l'héritage culinaire antillais."
+
+valeurs:
+  titre: "Tout est fait maison !"
+  items:
+    - titre: "Poulets et saucisses boucanés maison"
+      icone: poulet
+      texte: "Notre technique de boucanage dans un baril traditionnel est l'emblème du camion et le secret de notre cuisine. Si vous voyez de la fumée au loin, pas de panique !"
+    - titre: "Pâte à bokits"
+      icone: bokit
+      texte: "Pétrie chaque jour, notre pâte à bokit maison vous offre l'essence de la tradition antillaise."
+    - titre: "Sauce créole dite « sauce chien »"
+      icone: piment
+      texte: "Concoctée avec passion pour accompagner parfaitement nos plats. Un secret bien gardé du camion."
+
+specialites:
+  - titre: "Poulet boucané"
+    sous_titre: "Enfumage traditionnel, avec passion"
+    image: site/poulet-boucane.jpg
+    texte: "D'abord une marinade secrète, mêlant épices et herbes fraîches, enveloppe tendrement le poulet. Puis il est lentement fumé, capturant les arômes boisés qui imprègnent chaque fibre. Enfin, une cuisson parfaitement maîtrisée lui donne cette tendresse incomparable qui évoque les douces brises des Antilles."
+  - titre: "Sauce chien"
+    sous_titre: "Une sauce chien créole maison"
+    image: site/sauce-chien.jpg
+    texte: "Caribéenne, acidulée et relevée sur demande, préparée avec des oignons cives. Elle accompagne parfaitement les bokits et les plats antillais, avec une touche de fraîcheur et de piquant."
+  - titre: "Pain bokit"
+    sous_titre: "Croustillant dehors, moelleux dedans"
+    image: site/pain-bokit.jpg
+    texte: "Le bokit est un pain antillais frit, irrésistiblement croustillant à l'extérieur et moelleux à l'intérieur. Chaque bouchée libère un parfum de farine fraîche et de levure : un délice à toute heure de la journée."

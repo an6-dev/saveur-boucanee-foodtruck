@@ -1,0 +1,40 @@
+{{ define "main" }}
+{{- $E := site.Data.evenements -}}
+<div class="bandeau"><div class="wrap"><span class="kicker" style="color:var(--jaune)">Traiteur</span><h1>Événements</h1><p>{{ $E.intro }}</p></div></div>
+<section>
+  <div class="wrap">
+    {{ range $i, $e := $E.items }}
+    <div class="duo{{ if modBool $i 2 }}{{ else }} inv{{ end }}" style="margin-bottom:44px">
+      <div>{{ partial "img.html" (dict "src" $e.image "alt" $e.titre "w" 800) }}</div>
+      <div>
+        <span class="pill">{{ $e.prix }}</span>
+        <h2>{{ $e.titre }}</h2>
+        <p><em>{{ $e.texte }}</em></p>
+        <ul class="coche">{{ range $e.liste }}<li>{{ . }}</li>{{ end }}</ul>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+</section>
+<section class="fond">
+  <div class="wrap" style="max-width:720px">
+    <h2>Un projet ? Parlons-en</h2>
+    {{ with site.Params.formAction }}
+    <form action="{{ . }}" method="post">
+      <input name="name" placeholder="Votre nom" required autocomplete="name">
+      <input type="email" name="email" placeholder="Votre email" required autocomplete="email">
+      <input name="_subject" placeholder="Type d'événement, date, nombre de personnes">
+      <textarea name="message" rows="6" placeholder="Votre message" required></textarea>
+      <button class="btn" type="submit">Envoyer</button>
+    </form>
+    {{ else }}
+    <p>Écrivez-nous sur nos réseaux, ou venez nous voir directement au camion !</p>
+    <div class="btns">
+      <a class="btn" href="{{ site.Params.facebook }}" rel="noopener">Facebook</a>
+      <a class="btn vert" href="{{ site.Params.instagram }}" rel="noopener">Instagram</a>
+      <a class="btn alt" href="{{ "ou-nous-trouver/" | relURL }}">Où est le camion ?</a>
+    </div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}

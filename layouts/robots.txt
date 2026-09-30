@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: {{ "sitemap.xml" | absURL }}
+# Infos pour les assistants IA (horaires, lieux, menu) :
+# {{ "llms.txt" | absURL }}
+# {{ "api.json" | absURL }}
