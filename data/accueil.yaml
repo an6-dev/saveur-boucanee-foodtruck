@@ -1,0 +1,13 @@
+# Textes de la page d'accueil (modifiables dans /admin/, rubrique « Textes du site »)
+# L'en-tête (lieu du jour, horaires) est rempli automatiquement par le planning.
+statut: Le camion tourne du lundi au samedi
+lieu: Limoges & Feytiat
+sous_lieu: Retrouvez le camion à midi, voir le planning ci-dessous.
+planning_surtitre: Planning
+planning_titre: Où est le camion cette semaine ?
+menu_surtitre: Fait maison
+menu_titre: Au menu du camion
+valeurs_surtitre: Nos valeurs
+jeu_titre: Bokit Run 🚚
+jeu_texte: Pas de réseau en attendant ton bokit ? Conduis le camion sur la route des Antilles. Ça marche même hors ligne !
+pied: An nou ay ! 🌴

@@ -1,0 +1,239 @@
+# Decap CMS — https://foodtruck-sun.an6.fr/admin/
+# Chaque enregistrement crée un commit sur main : Cloudflare republie le site en 1 à 2 minutes.
+backend:
+  name: github
+  repo: an6-dev/saveur-boucanee-foodtruck
+  branch: main
+  base_url: https://www.ananse.fr
+  auth_endpoint: api/auth
+
+locale: fr
+site_url: https://foodtruck-sun.an6.fr
+display_url: https://foodtruck-sun.an6.fr
+logo_url: https://foodtruck-sun.an6.fr/icon-192.png
+
+# Images des articles : assets/images/blog (redimensionnées automatiquement par le site)
+media_folder: assets/images/blog
+public_folder: blog
+
+collections:
+  # ------------------------------------------------------------ Planning
+  - name: planning
+    label: "📍 Planning du camion"
+    editor: { preview: false }
+    files:
+      - name: planning
+        label: Planning, exceptions et congés
+        file: data/planning.yaml
+        fields:
+          - { name: annonce, label: "Annonce en haut de l'accueil (vide = rien)", widget: string, required: false }
+          - name: semaine
+            label: Semaine habituelle
+            widget: list
+            allow_add: false
+            summary: "{{jour}}"
+            fields:
+              - { name: jour, label: Jour, widget: select, options: [lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche] }
+              - name: creneaux
+                label: "Créneaux (aucun = fermé)"
+                widget: list
+                required: false
+                summary: "{{lieu}} {{debut}}–{{fin}}"
+                fields: &creneau
+                  - { name: lieu, label: "Emplacement (identifiant, ex. ester)", widget: string }
+                  - { name: debut, label: "Début (HH:MM)", widget: string, pattern: ["^[0-2][0-9]:[0-5][0-9]$", "Format HH:MM"] }
+                  - { name: fin, label: "Fin (HH:MM)", widget: string, pattern: ["^[0-2][0-9]:[0-5][0-9]$", "Format HH:MM"] }
+          - name: exceptions
+            label: "Exceptions (une date précise remplace la semaine habituelle)"
+            widget: list
+            required: false
+            summary: "{{date}} {{message}}"
+            fields:
+              - { name: date, label: Date, widget: datetime, format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false }
+              - { name: message, label: Message, widget: string, required: false }
+              - { name: creneaux, label: "Créneaux (aucun = fermé ce jour-là)", widget: list, required: false, summary: "{{lieu}} {{debut}}–{{fin}}", fields: *creneau }
+          - name: conges
+            label: Congés
+            widget: list
+            required: false
+            summary: "{{du}} → {{au}}"
+            fields:
+              - { name: du, label: Du, widget: datetime, format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false }
+              - { name: au, label: "Au (inclus)", widget: datetime, format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false }
+              - { name: message, label: Message, widget: string, required: false }
+          - name: emplacements
+            label: Emplacements
+            widget: list
+            summary: "{{id}} — {{nom}}, {{ville}}"
+            fields:
+              - { name: id, label: "Identifiant court (sans espace, ex. ester)", widget: string, pattern: ["^[a-z0-9-]+$", "Minuscules, chiffres et tirets"] }
+              - { name: nom, label: Nom, widget: string }
+              - { name: ville, label: Ville, widget: string }
+              - { name: precision, label: Précision, widget: string, required: false }
+              - { name: lat, label: Latitude, widget: number, value_type: float }
+              - { name: lng, label: Longitude, widget: number, value_type: float }
+
+  # ------------------------------------------------------------ Carte
+  - name: carte
+    label: "🍽️ Carte et contenus"
+    editor: { preview: false }
+    files:
+      - name: menu
+        label: La carte (plats et prix)
+        file: data/menu.yaml
+        fields:
+          - name: categories
+            label: Catégories
+            widget: list
+            summary: "{{titre}}"
+            fields:
+              - { name: id, label: "Identifiant (ex. entrees)", widget: string }
+              - { name: titre, label: Titre, widget: string }
+              - { name: icone, label: Icône, widget: select, options: &icones [bokit, accras, boudin, poulet, canari, dessert, coco, piment, palmier, fumee, pin, horloge], required: false }
+              - name: items
+                label: Plats
+                widget: list
+                summary: "{{titre}} — {{prix}}"
+                fields:
+                  - { name: titre, label: Nom, widget: string }
+                  - { name: prix, label: "Prix (ex. 5,50 €)", widget: string }
+                  - { name: texte, label: Description, widget: text, required: false }
+                  - { name: icone, label: Icône, widget: select, options: *icones, required: false }
+                  - { name: photo, label: Photo, widget: image, required: false, media_folder: /assets/images/menu, public_folder: "" }
+      - name: evenements
+        label: Événements & traiteur
+        file: data/evenements.yaml
+        fields:
+          - { name: intro, label: Introduction, widget: text }
+          - name: items
+            label: Offres
+            widget: list
+            summary: "{{titre}}"
+            fields:
+              - { name: titre, label: Titre, widget: string }
+              - { name: prix, label: Prix, widget: string }
+              - { name: image, label: Photo, widget: image, media_folder: /assets/images/site, public_folder: site }
+              - { name: texte, label: Texte, widget: text }
+              - { name: liste, label: Points, widget: list, field: { name: point, label: Point, widget: string } }
+      - name: histoire
+        label: Notre histoire et nos valeurs
+        file: data/histoire.yaml
+        fields:
+          - { name: intro, label: Introduction, widget: text }
+          - { name: points, label: Points, widget: list, field: { name: point, label: Point, widget: text } }
+          - { name: conclusion, label: Conclusion, widget: text }
+          - name: valeurs
+            label: "Nos valeurs (aussi sur l'accueil)"
+            widget: object
+            fields:
+              - { name: titre, label: Titre, widget: string }
+              - name: items
+                label: Valeurs
+                widget: list
+                summary: "{{titre}}"
+                fields:
+                  - { name: titre, label: Titre, widget: string }
+                  - { name: icone, label: Icône, widget: select, options: *icones }
+                  - { name: texte, label: Texte, widget: text }
+          - name: specialites
+            label: Spécialités
+            widget: list
+            summary: "{{titre}}"
+            fields:
+              - { name: titre, label: Titre, widget: string }
+              - { name: sous_titre, label: Sous-titre, widget: string }
+              - { name: image, label: Photo, widget: image, media_folder: /assets/images/site, public_folder: site }
+              - { name: texte, label: Texte, widget: text }
+
+  # ------------------------------------------------------------ Blog
+  - name: blog
+    label: "📝 Blog"
+    label_singular: article
+    folder: content/blog
+    create: true
+    slug: "{{slug}}"
+    filter: { field: resume, pattern: "." }
+    sortable_fields: [date, title]
+    summary: "{{title}} — {{date | date('DD/MM/YYYY')}}"
+    fields:
+      - { name: title, label: Titre, widget: string }
+      - { name: description, label: "Description (Google)", widget: text }
+      - { name: date, label: Date, widget: datetime, format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false }
+      - { name: icone, label: Icône, widget: select, options: *icones, default: palmier }
+      - { name: image, label: "Photo principale", widget: image, required: false }
+      - { name: resume, label: "Résumé (liste des articles)", widget: text }
+      - name: recette
+        label: "Recette (facultatif)"
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { name: portions, label: Portions, widget: string, required: false }
+          - { name: preparation, label: Préparation, widget: string, required: false }
+          - { name: cuisson, label: Cuisson, widget: string, required: false }
+          - { name: prepTime, label: "Préparation pour Google (ex. PT30M)", widget: string, required: false }
+          - { name: cookTime, label: "Cuisson pour Google (ex. PT1H30M)", widget: string, required: false }
+          - { name: ingredients, label: Ingrédients, widget: list, required: false, field: { name: ingredient, label: Ingrédient, widget: string } }
+          - { name: etapes, label: Étapes, widget: list, required: false, field: { name: etape, label: Étape, widget: text } }
+      - { name: draft, label: "Brouillon (non publié)", widget: boolean, default: false, required: false }
+      - { name: body, label: Article, widget: markdown }
+
+  # ------------------------------------------------------------ Infos et textes
+  - name: infos
+    label: "ℹ️ Infos et textes"
+    editor: { preview: false }
+    files:
+      - name: infos
+        label: Coordonnées, réseaux, vidéos
+        file: data/infos.yaml
+        fields:
+          - { name: slogan, label: Slogan, widget: string }
+          - { name: description, label: "Description (Google)", widget: text }
+          - { name: presentation, label: "Présentation (pied de page)", widget: text }
+          - { name: phone, label: "Téléphone (vide = masqué)", widget: string, required: false }
+          - { name: email, label: "E-mail (vide = masqué)", widget: string, required: false }
+          - { name: raison_sociale, label: "Raison sociale", widget: string, required: false }
+          - { name: siret, label: SIRET, widget: string, required: false }
+          - { name: adresse, label: "Adresse du siège", widget: string, required: false }
+          - { name: facebook, label: "Page Facebook", widget: string, required: false }
+          - { name: instagram, label: "Compte Instagram (lien)", widget: string, required: false }
+          - { name: instagramName, label: "Compte Instagram (@nom)", widget: string, required: false }
+          - { name: gmapEmbed, label: "Carte Google : lien d'intégration", widget: string, required: false }
+          - { name: gmapLink, label: "Carte Google : lien d'ouverture", widget: string, required: false }
+          - name: youtube
+            label: Vidéos YouTube
+            widget: list
+            required: false
+            summary: "{{titre}}"
+            fields:
+              - { name: titre, label: Titre, widget: string }
+              - { name: url, label: Lien, widget: string }
+      - name: accueil
+        label: Textes de l'accueil
+        file: data/accueil.yaml
+        fields:
+          - { name: statut, label: "Statut (avant chargement du planning)", widget: string }
+          - { name: lieu, label: "Lieu (avant chargement du planning)", widget: string }
+          - { name: sous_lieu, label: "Sous-titre (avant chargement du planning)", widget: string }
+          - { name: planning_surtitre, label: "Planning : surtitre", widget: string }
+          - { name: planning_titre, label: "Planning : titre", widget: string }
+          - { name: menu_surtitre, label: "Menu : surtitre", widget: string }
+          - { name: menu_titre, label: "Menu : titre", widget: string }
+          - { name: valeurs_surtitre, label: "Valeurs : surtitre", widget: string }
+          - { name: jeu_titre, label: "Jeu : titre", widget: string }
+          - { name: jeu_texte, label: "Jeu : texte", widget: text }
+          - { name: pied, label: "Fin du pied de page", widget: string }
+
+  # ------------------------------------------------------------ Pages
+  - name: pages
+    label: "📄 Pages (titres et descriptions Google)"
+    editor: { preview: false }
+    files:
+      - { name: accueil, label: Accueil, file: content/_index.md, fields: &page [ { name: title, label: Titre, widget: string }, { name: description, label: "Description (Google)", widget: text, required: false }, { name: layout, widget: hidden, required: false }, { name: body, label: "Texte", widget: markdown, required: false } ] }
+      - { name: menu, label: La carte, file: content/menu.md, fields: *page }
+      - { name: lieux, label: Où nous trouver, file: content/ou-nous-trouver.md, fields: *page }
+      - { name: histoire, label: Notre histoire, file: content/histoire.md, fields: *page }
+      - { name: evenements, label: Événements, file: content/evenements.md, fields: *page }
+      - { name: photos, label: Photos, file: content/photos.md, fields: *page }
+      - { name: jeu, label: Le jeu, file: content/jeu.md, fields: *page }
+      - { name: blog, label: "Blog (en-tête)", file: content/blog/_index.md, fields: *page }

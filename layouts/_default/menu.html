@@ -16,7 +16,7 @@
           <p>{{ .texte }}</p>
         </div>
         {{ with .photo }}
-        <details><summary>📷 Voir la photo</summary>{{ partial "img.html" (dict "src" (printf "menu/%s" .) "alt" "" "w" 640 "sizes" "300px") }}</details>
+        <details><summary>📷 Voir la photo</summary>{{ partial "img.html" (dict "src" (printf "menu/%s" (path.Base .)) "alt" "" "w" 640 "sizes" "300px") }}</details>
         {{ end }}
       </article>
       {{ end }}

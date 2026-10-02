@@ -10,13 +10,17 @@ Pensé pour les **connexions mobiles faibles** (le camion se gare à la campagne
 - Google Maps et Instagram ne se chargent **que sur demande** (bouton) ;
 - service worker : le site reste consultable et le jeu jouable **hors ligne**.
 
+## Modifier le site sans code : /admin/
+
+**https://foodtruck-sun.an6.fr/admin/** (Decap CMS, connexion avec un compte GitHub ayant accès au dépôt) : planning, carte et prix, événements, histoire, articles du blog, coordonnées (téléphone, e-mail, SIRET…), textes de l'accueil. Chaque enregistrement republie le site en 1 à 2 minutes.
+
 ## Modifier le planning (le plus fréquent)
 
 Tout se passe dans **`data/planning.yaml`** :
 
 | Besoin | Où |
 |---|---|
-| Ajouter un lieu | `emplacements` |
+| Ajouter un lieu | `emplacements` (liste, chaque lieu a un `id` repris dans les créneaux) |
 | Planning habituel (plusieurs créneaux par jour possibles) | `semaine` |
 | Un jour différent (férié, marché, festival…) | `exceptions` |
 | Vacances | `conges` |
@@ -24,7 +28,7 @@ Tout se passe dans **`data/planning.yaml`** :
 
 La page d'accueil calcule sur le téléphone du visiteur si le camion est **ouvert maintenant**, s'il **ouvre bientôt**, ou quel est le **prochain arrêt**.
 
-Les autres contenus : `data/menu.yaml` (carte et prix), `data/histoire.yaml`, `data/evenements.yaml`, `content/blog/` (articles et recettes), `hugo.yaml` (réseaux sociaux, carte Google, téléphone et email **laissés vides volontairement**).
+Les autres contenus : `data/menu.yaml` (carte et prix), `data/histoire.yaml`, `data/evenements.yaml`, `content/blog/` (articles et recettes), `data/infos.yaml` (réseaux sociaux, carte Google, téléphone, e-mail, SIRET), `data/accueil.yaml` (textes de l'accueil).
 
 ## Pages
 

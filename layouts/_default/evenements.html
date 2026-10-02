@@ -30,8 +30,8 @@
     {{ else }}
     <p>Écrivez-nous sur nos réseaux, ou venez nous voir directement au camion !</p>
     <div class="btns">
-      <a class="btn" href="{{ site.Params.facebook }}" rel="noopener">Facebook</a>
-      <a class="btn vert" href="{{ site.Params.instagram }}" rel="noopener">Instagram</a>
+      <a class="btn" href="{{ site.Data.infos.facebook }}" rel="noopener">Facebook</a>
+      <a class="btn vert" href="{{ site.Data.infos.instagram }}" rel="noopener">Instagram</a>
       <a class="btn alt" href="{{ "ou-nous-trouver/" | relURL }}">Où est le camion ?</a>
     </div>
     {{ end }}

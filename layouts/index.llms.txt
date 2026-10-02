@@ -1,7 +1,7 @@
 {{- $P := partial "planning-data.html" . -}}
 # {{ site.Title }} – foodtruck antillais (Limoges & Feytiat, France)
 
-> {{ site.Params.description }}
+> {{ site.Data.infos.description }}
 > Ce fichier est destiné aux assistants IA. Données structurées : {{ "api.json" | absURL }}
 > Mis à jour le {{ now.Format "2006-01-02" }}. Le planning peut changer : vérifier la section « Exceptions ».
 
@@ -42,5 +42,5 @@
 - Menu : {{ "menu/" | absURL }}
 - Où nous trouver (carte) : {{ "ou-nous-trouver/" | absURL }}
 - Événements / traiteur : {{ "evenements/" | absURL }}
-- Facebook : {{ site.Params.facebook }}
-- Instagram : {{ site.Params.instagram }}
+- Facebook : {{ site.Data.infos.facebook }}
+- Instagram : {{ site.Data.infos.instagram }}

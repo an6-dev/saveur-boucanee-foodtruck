@@ -14,8 +14,8 @@
   <div class="wrap">
     <div class="titre-sec"><div><span class="kicker">Vidéos & Instagram</span><h2>Le camion en action</h2></div></div>
     <div class="btns" style="margin-bottom:22px">
-      {{ range site.Params.youtube }}<a class="btn alt" href="{{ .url }}" rel="noopener">▶ {{ .titre }}</a>{{ end }}
-      <a class="btn" href="{{ site.Params.instagram }}" rel="noopener">Instagram {{ site.Params.instagramName }}</a>
+      {{ range site.Data.infos.youtube }}<a class="btn alt" href="{{ .url }}" rel="noopener">▶ {{ .titre }}</a>{{ end }}
+      <a class="btn" href="{{ site.Data.infos.instagram }}" rel="noopener">Instagram {{ site.Data.infos.instagramName }}</a>
     </div>
     {{ with site.Params.beholdKey }}
     <div id="insta"><button class="btn vert" type="button" id="insta-btn">Charger les dernières photos Instagram</button></div>

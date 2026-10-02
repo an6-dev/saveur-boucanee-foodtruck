@@ -29,13 +29,13 @@
 </section>
 <section>
   <div class="wrap">
-    <div class="titre-sec"><h2>La carte</h2><a class="lien" href="{{ site.Params.gmapLink }}" rel="noopener">Ouvrir dans Google Maps →</a></div>
+    <div class="titre-sec"><h2>La carte</h2><a class="lien" href="{{ site.Data.infos.gmapLink }}" rel="noopener">Ouvrir dans Google Maps →</a></div>
     {{- /* Google Maps pèse plus d'1 Mo : on ne le charge que si on le demande */ -}}
     <div class="gmap" id="gmap">
       <div>
         {{ partial "icone.html" "pin" }}
         <p><b>La carte Google Maps pèse lourd.</b><br>Elle ne se charge que si vous le demandez.</p>
-        <button class="btn" type="button" id="gmap-btn" data-src="{{ site.Params.gmapEmbed }}">Afficher la carte</button>
+        <button class="btn" type="button" id="gmap-btn" data-src="{{ site.Data.infos.gmapEmbed }}">Afficher la carte</button>
       </div>
     </div>
   </div>

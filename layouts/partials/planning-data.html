@@ -1,7 +1,8 @@
 {{- /* Renvoie le planning normalisé (dict) : utilisé par la page, le JSON-LD, llms.txt et api.json. */ -}}
 {{- $p := site.Data.planning -}}
 {{- $lieux := dict -}}
-{{- range $id, $l := $p.emplacements -}}
+{{- range $p.emplacements -}}
+  {{- $l := . -}}{{- $id := .id -}}
   {{- $lien := printf "https://www.google.com/maps/dir/?api=1&destination=%v,%v" $l.lat $l.lng -}}
   {{- $lieux = merge $lieux (dict $id (dict "id" $id "nom" $l.nom "ville" $l.ville "precision" ($l.precision | default "") "lat" $l.lat "lng" $l.lng "lien" $lien)) -}}
 {{- end -}}

@@ -3,9 +3,9 @@
   <div class="wrap">
     <div>
       <h3>{{ site.Title }} · foodtruck antillais</h3>
-      <p>Bokits, poulet & saucisses boucanés maison, accras, boudins et douceurs coco-goyave. Limoges &amp; Feytiat.</p>
-      {{- with site.Params.phone }}<p>📞 <a href="tel:{{ replace . "." "" }}">{{ . }}</a></p>{{ end }}
-      {{- with site.Params.email }}<p>✉️ <a href="mailto:{{ . }}">{{ . }}</a></p>{{ end }}
+      <p>{{ site.Data.infos.presentation }}</p>
+      {{- with site.Data.infos.phone }}<p>📞 <a href="tel:{{ replace . "." "" }}">{{ . }}</a></p>{{ end }}
+      {{- with site.Data.infos.email }}<p>✉️ <a href="mailto:{{ . }}">{{ . }}</a></p>{{ end }}
     </div>
     <div>
       <h3>Le site</h3>
@@ -14,11 +14,11 @@
     <div>
       <h3>Suivez le camion</h3>
       <ul>
-        <li><a href="{{ site.Params.facebook }}" rel="noopener">Facebook</a></li>
-        <li><a href="{{ site.Params.instagram }}" rel="noopener">Instagram {{ site.Params.instagramName }}</a></li>
+        <li><a href="{{ site.Data.infos.facebook }}" rel="noopener">Facebook</a></li>
+        <li><a href="{{ site.Data.infos.instagram }}" rel="noopener">Instagram {{ site.Data.infos.instagramName }}</a></li>
         <li><a href="{{ "llms.txt" | relURL }}">Infos pour les IA (llms.txt)</a></li>
       </ul>
     </div>
   </div>
-  <p class="copy">© {{ now.Year }} {{ site.Title }} – An nou ay ! 🌴</p>
+  <p class="copy">© {{ now.Year }} {{ with site.Data.infos.raison_sociale }}{{ . }}{{ else }}{{ site.Title }}{{ end }}{{ with site.Data.infos.siret }} · SIRET {{ . }}{{ end }}{{ with site.Data.infos.adresse }} · {{ . }}{{ end }} – {{ site.Data.accueil.pied }}</p>
 </footer>

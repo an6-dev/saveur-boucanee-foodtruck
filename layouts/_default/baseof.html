@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{{ if .IsHome }}{{ site.Title }} · Foodtruck antillais à Limoges – bokits & poulet boucané{{ else }}{{ if eq .Kind "404" }}Page introuvable{{ else }}{{ .Title }}{{ end }} · {{ site.Title }} foodtruck{{ end }}</title>
-<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Data.infos.description }}{{ end }}">
 <meta name="theme-color" content="#1a120d">
 <link rel="canonical" href="{{ .Permalink }}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ if .IsHome }}{{ site.Title }} – foodtruck antillais{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}">
-<meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+<meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Data.infos.description }}{{ end }}">
 {{- $logo := resources.Get "images/site/logo-rond.png" }}
 {{- $og := $logo.Resize "512x png" }}
 <meta property="og:image" content="{{ $og.Permalink }}">

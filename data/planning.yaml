@@ -16,32 +16,33 @@
 
 annonce: ""
 
+# id : identifiant court, utilisé dans les créneaux (lieu: ester)
 emplacements:
-  ester:
+  - id: ester
     nom: "Ester Technopole"
     ville: "Limoges"
     precision: "Parking de la technopole"
     lat: 45.860596
     lng: 1.2915484
-  chu:
+  - id: chu
     nom: "Hôpital de la mère et de l'enfant (CHU)"
     ville: "Limoges"
     precision: "Parking de l'hôpital"
     lat: 45.8140802
     lng: 1.2407638
-  fac:
+  - id: fac
     nom: "Faculté de Droit"
     ville: "Limoges"
     precision: ""
     lat: 45.825293
     lng: 1.259468
-  casto:
+  - id: casto
     nom: "Parking Castorama"
     ville: "Feytiat"
     precision: ""
     lat: 45.8125509
     lng: 1.2984384
-  garibaldi:
+  - id: garibaldi
     nom: "Avenue Garibaldi – Parking Picard"
     ville: "Limoges"
     precision: ""

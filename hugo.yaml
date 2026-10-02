@@ -8,27 +8,11 @@ enableRobotsTXT: true
 disableKinds: [taxonomy, term, RSS]
 
 params:
-  description: "Foodtruck antillais à Limoges & Feytiat : bokits, poulet boucané maison, accras, boudins. Où est le camion aujourd'hui ?"
-  slogan: "Foodtruck antillais · Limoges & Feytiat"
-  # Téléphone / email : laisser vide pour ne rien afficher sur le site.
-  phone: ""
-  email: ""
+  # Coordonnées, réseaux, vidéos : data/infos.yaml (modifiables dans /admin/)
   # Formulaire de contact (formsubmit.co, etc.). Vide = formulaire masqué.
   formAction: ""
-  gmapEmbed: "https://www.google.com/maps/d/embed?mid=1bTNnzfeb_t8j8xYKG7c9u2eD4vrxanM&ehbc=2E312F&noprof=1"
-  gmapLink: "https://www.google.com/maps/d/viewer?mid=1bTNnzfeb_t8j8xYKG7c9u2eD4vrxanM"
-  facebook: "https://www.facebook.com/Saveurboucanee/"
-  instagram: "https://www.instagram.com/saveurboucanee/"
-  instagramName: "@saveurboucanee"
   # Widget Instagram behold.so (chargé seulement sur demande, page Photos)
   beholdKey: "NPWdrPGOBbMsyZyas0iz"
-  youtube:
-    - titre: "Ester Technopole"
-      url: "https://youtube.com/shorts/RGl2fKP0Mxk"
-    - titre: "Fac de droit"
-      url: "https://youtube.com/shorts/Ev8WQlT1kyo"
-    - titre: "Castorama Feytiat"
-      url: "https://youtube.com/shorts/6XpD-d1Afu4"
 
 menus:
   main:

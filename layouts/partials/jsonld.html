@@ -12,6 +12,6 @@
 {{- range .items -}}{{- $items = $items | append (dict "@type" "MenuItem" "name" .titre "description" .texte "offers" (dict "@type" "Offer" "price" (replace (replace .prix " €" "") "," ".") "priceCurrency" "EUR")) -}}{{- end -}}
 {{- $sections = $sections | append (dict "@type" "MenuSection" "name" .titre "hasMenuItem" $items) -}}
 {{- end -}}
-{{- $ld := dict "@context" "https://schema.org" "@type" "FoodEstablishment" "name" site.Title "description" site.Params.description "url" site.BaseURL "servesCuisine" (slice "Antillaise" "Caribéenne" "Créole") "priceRange" "€" "image" ((resources.Get "images/site/logo-rond.png").Resize "512x png").Permalink "areaServed" (slice "Limoges" "Feytiat") "sameAs" (slice site.Params.facebook site.Params.instagram) "openingHoursSpecification" $hours "hasMenu" (dict "@type" "Menu" "name" "La carte" "hasMenuSection" $sections) -}}
+{{- $ld := dict "@context" "https://schema.org" "@type" "FoodEstablishment" "name" site.Title "description" site.Data.infos.description "url" site.BaseURL "servesCuisine" (slice "Antillaise" "Caribéenne" "Créole") "priceRange" "€" "image" ((resources.Get "images/site/logo-rond.png").Resize "512x png").Permalink "areaServed" (slice "Limoges" "Feytiat") "sameAs" (slice site.Data.infos.facebook site.Data.infos.instagram) "openingHoursSpecification" $hours "hasMenu" (dict "@type" "Menu" "name" "La carte" "hasMenuSection" $sections) -}}
 <script type="application/ld+json">{{ $ld | jsonify | safeJS }}</script>
 {{- end -}}

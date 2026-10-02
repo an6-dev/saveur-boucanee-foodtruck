@@ -1,0 +1,22 @@
+# Coordonnées et réseaux (modifiables dans /admin/, rubrique « Infos du camion »)
+# Téléphone / e-mail : laisser vide pour ne rien afficher sur le site.
+slogan: "Foodtruck antillais · Limoges & Feytiat"
+description: "Foodtruck antillais à Limoges & Feytiat : bokits, poulet boucané maison, accras, boudins. Où est le camion aujourd'hui ?"
+presentation: "Bokits, poulet & saucisses boucanés maison, accras, boudins et douceurs coco-goyave. Limoges & Feytiat."
+phone: ""
+email: ""
+raison_sociale: ""
+siret: ""
+adresse: ""
+facebook: "https://www.facebook.com/Saveurboucanee/"
+instagram: "https://www.instagram.com/saveurboucanee/"
+instagramName: "@saveurboucanee"
+gmapEmbed: "https://www.google.com/maps/d/embed?mid=1bTNnzfeb_t8j8xYKG7c9u2eD4vrxanM&ehbc=2E312F&noprof=1"
+gmapLink: "https://www.google.com/maps/d/viewer?mid=1bTNnzfeb_t8j8xYKG7c9u2eD4vrxanM"
+youtube:
+  - titre: "Ester Technopole"
+    url: "https://youtube.com/shorts/RGl2fKP0Mxk"
+  - titre: "Fac de droit"
+    url: "https://youtube.com/shorts/Ev8WQlT1kyo"
+  - titre: "Castorama Feytiat"
+    url: "https://youtube.com/shorts/6XpD-d1Afu4"
